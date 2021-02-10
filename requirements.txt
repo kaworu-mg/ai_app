@@ -1,4 +1,4 @@
 pandas
 scikit-learn
 django
-pnuicorn
+gunicorn
