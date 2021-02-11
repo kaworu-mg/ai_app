@@ -1,27 +1,28 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-import joblib
 import pandas as pd
-import pickle
-# Create your views here.
+import gzip, pickle
+
 category_data = pd.read_csv("idx2category.csv")
 idx2category = {row.k: row.v for idx, row in category_data.iterrows()}
 
-model = joblib.load("rdmf.pickle")
+with gzip.open("rdmf.pickle","rb") as f:
+    model = pickle.load(f)
+
 
 def index(request):
-  if request.method == "GET":
-    return render(
-    request,
-    "nlp/home.html"
-    )
-  else:
-    title = [request.POST["title"]]
-    result = model.predict(title)[0]
-    pred = idx2category[result]
-
-    return render(
-      request,
-      "nlp/home.html",
-      {"title":pred}
-      )
+    if request.method == "GET":
+        return render(
+            request,
+            "nlp/home.html"
+        )
+    else:
+        title = [request.POST["title"]]
+        print("title:", title)
+        result = model.predict(title)[0]
+        print("result:", result)
+        pred = idx2category[result]
+        return render(
+            request,
+            "nlp/home.html",
+            {"title": pred}
+        )
