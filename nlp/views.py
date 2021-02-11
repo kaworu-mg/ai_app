@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import pandas as pd
-import gzip, pickle
+import _pickle as pickle
 
 category_data = pd.read_csv("idx2category.csv")
 idx2category = {row.k: row.v for idx, row in category_data.iterrows()}
 
-with gzip.open("rdmf.pickle","rb") as f:
+with open("rdmf.pickle","rb") as f:
     model = pickle.load(f)
 
 
