@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 import pandas as pd
+import joblib
 import _pickle as pickle
 
 category_data = pd.read_csv("idx2category.csv")
